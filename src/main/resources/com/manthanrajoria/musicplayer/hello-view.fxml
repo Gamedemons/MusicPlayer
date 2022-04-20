@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="552.0" prefWidth="1265.0" style="-fx-background-color: #003060;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.manthanrajoria.musicplayer.HelloController">
+   <children>
+      <Button fx:id="btn2" layoutX="22.0" layoutY="152.0" mnemonicParsing="false" onAction="#loadMusic" prefHeight="77.0" prefWidth="718.0" style="-fx-background-color: #F6F54D;" text="Load Songs" />
+      <Button fx:id="btn1" disable="true" layoutX="22.0" layoutY="454.0" mnemonicParsing="false" onAction="#playMusic" prefHeight="77.0" prefWidth="718.0" style="-fx-background-color: #FEB139;" text="Play / Pause" />
+      <Label fx:id="l1" layoutX="22.0" layoutY="401.0" prefHeight="33.0" prefWidth="718.0" />
+      <TextField fx:id="locationSelector" alignment="CENTER" layoutX="22.0" layoutY="54.0" prefHeight="77.0" prefWidth="718.0" promptText="Enter search loaction" text="C:\Users\GameDemons\IdeaProjects\MusicPlayer\src\main\java\com\manthanrajoria\musicplayer\Songs" />
+      <TextField fx:id="t1" alignment="CENTER" disable="true" layoutX="22.0" layoutY="296.0" prefHeight="77.0" prefWidth="718.0" promptText="Enter song index" />
+      <ListView fx:id="listViewer" disable="true" layoutX="754.0" layoutY="54.0" prefHeight="478.0" prefWidth="496.0" />
+      <RadioButton fx:id="radio1" disable="true" layoutX="22.0" layoutY="245.0" mnemonicParsing="false" onAction="#indexPlay" prefHeight="33.0" prefWidth="182.0" text="Play using index" textFill="WHITE">
+         <toggleGroup>
+            <ToggleGroup fx:id="a" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="radio2" disable="true" layoutX="260.0" layoutY="247.0" mnemonicParsing="false" onAction="#listPlay" prefHeight="33.0" prefWidth="182.0" text="Play using list" textFill="WHITE" toggleGroup="$a" />
+   </children>
+</Pane>
