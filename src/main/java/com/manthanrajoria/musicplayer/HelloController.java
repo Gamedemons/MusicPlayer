@@ -3,6 +3,7 @@ package com.manthanrajoria.musicplayer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.DirectoryChooser;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -33,8 +34,7 @@ public class HelloController {
     @FXML
     private Button btn2;
 
-    @FXML
-    private Label logo;
+//    @FXML
 
     static MP3Player mp3Player = new MP3Player("");
     private String path = "C:\\Users\\GameDemons\\IdeaProjects\\MusicPlayer\\src\\main\\java\\com\\manthanrajoria\\musicplayer\\Songs";
@@ -44,33 +44,42 @@ public class HelloController {
 
 
     public int loadMusic() {
-        if (!locationSelector.getText().equals("")) {
-            path = locationSelector.getText();
-            File[] files = new File(path).listFiles();
-            for (File file : files) {
-                if (file.isFile()) {
-                    results.add(file.getName());
-                    playlist.getSongs().add(file.getAbsolutePath());
+        try {
+            l1.setText("");
+            if (!locationSelector.getText().equals("")) {
+                path = locationSelector.getText();
+                File[] files = new File(path).listFiles();
+                for (File file : files) {
+                    if (file.isFile() && file.getName().endsWith("mp3")) {
+                        results.add(file.getName());
+                        playlist.getSongs().add(file.getAbsolutePath());
+                    }
                 }
-            }
-            int i = 0;
-            for (String a : results) {
-                i++;
-                listViewer.getItems().add(i + "\t\t" + a);
-            }
+                int i = 0;
+                for (String a : results) {
+                    i++;
+                    listViewer.getItems().add(i + "\t\t" + a);
+                }
 //        for(String a : playlist.getSongs()){
 //            System.out.println(a);
 //        }
-            btn2.setDisable(true);
-            btn1.setDisable(false);
-            radio1.setDisable(false);
-            radio2.setDisable(false);
+                btn2.setDisable(true);
+                btn1.setDisable(false);
+                radio1.setDisable(false);
+                radio2.setDisable(false);
+            }
+        }catch(Exception e){
+            l1.setText("Something went wrong ! Check your address.");
         }
         return 0;
     }
 
     public int playMusic(ActionEvent actionEvent) {
-
+        l1.setText("");
+        if(!radio1.isSelected()  && listViewer.isDisable()){
+            l1.setText("Please select a song.");
+            return 0;
+        }
         try{
 /*
             for(String a : results){
@@ -85,8 +94,9 @@ public class HelloController {
                 while (true) {
                     String input = t1.getText();
                     if (input.equalsIgnoreCase("stop") || input.equals("")) {
+                        l1.setText("Pausing play / No input");
                         mp3Player.close();
-                        break;
+                        return 0;
                     }
                     int trackNo = Integer.parseInt(input);
                     if (trackNo > playlist.getSongs().size() || trackNo < 1) {
@@ -97,8 +107,15 @@ public class HelloController {
                     }
                     break;
                 }
-            }else if(radio2.isSelected()){
-                String listname = listViewer.getSelectionModel().getSelectedItem().toString();
+            }
+
+            if(radio2.isSelected()){
+                if(listViewer.getSelectionModel().getSelectedItem() == null){
+                    l1.setText("No song selected.");
+                    return 0;
+                }
+                int indexofT = listViewer.getSelectionModel().getSelectedItem().toString().lastIndexOf("\t");
+                String listname = listViewer.getSelectionModel().getSelectedItem().toString().substring(indexofT+1);
                 File[] files = new File(path).listFiles();
                 for (File file : files) {
                     if (file.isFile()) {
@@ -128,7 +145,7 @@ public class HelloController {
                 }
             }
         }catch(Exception e){
-            e.printStackTrace();
+            l1.setText("We ran into a problem. Check your file.");
         }
         return 0;
     }
@@ -143,5 +160,14 @@ public class HelloController {
         t1.setDisable(true);
         listViewer.setDisable(false);
         return 0;
+    }
+
+    public void openFilePicker(ActionEvent event) {
+        try {
+            DirectoryChooser dChooser = new DirectoryChooser();
+            File file = dChooser.showDialog(null);
+            locationSelector.setText(file.getAbsolutePath());
+        }catch (Exception e){
+        }
     }
 }
