@@ -10,20 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HelloController {
-    @FXML
-    private Label l1;
 
     @FXML
-    private TextField t1;
+    private TextField locationField;
 
     @FXML
-    private TextField locationSelector;
-
-    @FXML
-    private Button btn1;
-
-    @FXML
-    private ListView listViewer;
+    private Button loadButton;
 
     @FXML
     private RadioButton radio1;
@@ -32,22 +24,38 @@ public class HelloController {
     private RadioButton radio2;
 
     @FXML
-    private Button btn2;
+    private TextField indexField;
 
-//    @FXML
+    @FXML
+    private Label errorLabel;
+
+    @FXML
+    private Button playButton;
+
+    @FXML
+    private ListView listViewer;
 
     static MP3Player mp3Player = new MP3Player("");
-    private String path = "C:\\Users\\GameDemons\\IdeaProjects\\MusicPlayer\\src\\main\\java\\com\\manthanrajoria\\musicplayer\\Songs";
+    private String path;
     private boolean isPlaying = false;
     Playlist playlist = new Playlist("DS");
     List<String> results = new ArrayList<>();
 
+    public void openFilePicker() {
+        try {
+            DirectoryChooser dChooser = new DirectoryChooser();
+            File file = dChooser.showDialog(null);
+            locationField.setText(file.getAbsolutePath());
+        }catch (Exception e){
+            errorLabel.setText(e.getMessage());
+        }
+    }
 
     public int loadMusic() {
         try {
-            l1.setText("");
-            if (!locationSelector.getText().equals("")) {
-                path = locationSelector.getText();
+            errorLabel.setText("");
+            if (!locationField.getText().equals("")) {
+                path = locationField.getText();
                 File[] files = new File(path).listFiles();
                 for (File file : files) {
                     if (file.isFile() && file.getName().endsWith("mp3")) {
@@ -56,52 +64,43 @@ public class HelloController {
                     }
                 }
                 int i = 0;
-                for (String a : results) {
+                for (String songName : results) {
                     i++;
-                    listViewer.getItems().add(i + "\t\t" + a);
+                    listViewer.getItems().add(i + "\t\t" + songName);
                 }
 //        for(String a : playlist.getSongs()){
 //            System.out.println(a);
 //        }
-                btn2.setDisable(true);
-                btn1.setDisable(false);
+                loadButton.setDisable(true);
+                playButton.setDisable(false);
                 radio1.setDisable(false);
                 radio2.setDisable(false);
             }
         }catch(Exception e){
-            l1.setText("Something went wrong ! Check your address.");
+            errorLabel.setText("Something went wrong ! Check your address.");
         }
         return 0;
     }
 
     public int playMusic(ActionEvent actionEvent) {
-        l1.setText("");
+        errorLabel.setText("");
         if(!radio1.isSelected()  && listViewer.isDisable()){
-            l1.setText("Please select a song.");
+            errorLabel.setText("Please select a song.");
             return 0;
         }
         try{
-/*
-            for(String a : results){
-                System.out.println(a + "\n");
-            }
-*/
-//            playlist.getSongs().add("src/main/java/com/manthanrajoria/musicplayer/Songs/Demon Slayer Main Theme.mp3");
-//            playlist.getSongs().add("src/main/java/com/manthanrajoria/musicplayer/Songs/Kamado Tanjirou no Uta.mp3");
             String filename = "";
-            String s = "";
             if(radio1.isSelected()) {
                 while (true) {
-                    String input = t1.getText();
+                    String input = indexField.getText();
                     if (input.equalsIgnoreCase("stop") || input.equals("")) {
-                        l1.setText("Pausing play / No input");
+                        errorLabel.setText("Pausing play / No input");
                         mp3Player.close();
                         return 0;
                     }
                     int trackNo = Integer.parseInt(input);
                     if (trackNo > playlist.getSongs().size() || trackNo < 1) {
-                        System.out.println("s");
-                        l1.setText("Track out of bounds !");
+                        errorLabel.setText("Track out of bounds !");
                     } else {
                         filename = playlist.getSongs().get(trackNo - 1);
                     }
@@ -111,11 +110,11 @@ public class HelloController {
 
             if(radio2.isSelected()){
                 if(listViewer.getSelectionModel().getSelectedItem() == null){
-                    l1.setText("No song selected.");
+                    errorLabel.setText("No song selected.");
                     return 0;
                 }
-                int indexofT = listViewer.getSelectionModel().getSelectedItem().toString().lastIndexOf("\t");
-                String listname = listViewer.getSelectionModel().getSelectedItem().toString().substring(indexofT+1);
+                int indexofTab = listViewer.getSelectionModel().getSelectedItem().toString().lastIndexOf("\t");
+                String listname = listViewer.getSelectionModel().getSelectedItem().toString().substring(indexofTab+1);
                 File[] files = new File(path).listFiles();
                 for (File file : files) {
                     if (file.isFile()) {
@@ -126,48 +125,39 @@ public class HelloController {
                 }
             }
 
-            if(filename == null || filename.equals("")) {
-                l1.setText("Program Ending");
-            }else{
-                if(isPlaying == false) {
-                    mp3Player = new MP3Player(filename);
-                    mp3Player.play();
-                    isPlaying = true;
-                }else{
-                    mp3Player.close();
-                    isPlaying = false;
-                }
-
-                s = t1.getText();
-
-                if (s.equalsIgnoreCase("stop")) {
-                    mp3Player.close();
-                }
-            }
+            playMusic(filename);
         }catch(Exception e){
-            l1.setText("We ran into a problem. Check your file.");
+            errorLabel.setText("We ran into a problem. Check your file.");
         }
         return 0;
     }
 
-    public int indexPlay(){
-        t1.setDisable(false);
+    public int indexplayController(){
+        indexField.setDisable(false);
         listViewer.setDisable(true);
         return 0;
     }
 
-    public int listPlay(){
-        t1.setDisable(true);
+    public int listplayController(){
+        indexField.setDisable(true);
         listViewer.setDisable(false);
         return 0;
     }
 
-    public void openFilePicker(ActionEvent event) {
-        try {
-            DirectoryChooser dChooser = new DirectoryChooser();
-            File file = dChooser.showDialog(null);
-            locationSelector.setText(file.getAbsolutePath());
-        }catch (Exception e){
+    public int playMusic(String filename){
+        if(filename == null || filename.equals("")) {
+            errorLabel.setText("Program Ending");
+        }else{
+            if(isPlaying == false) {
+                mp3Player = new MP3Player(filename);
+                mp3Player.play();
+                isPlaying = true;
+            }else{
+                mp3Player.close();
+                isPlaying = false;
+            }
         }
+        return  0;
     }
+
 }

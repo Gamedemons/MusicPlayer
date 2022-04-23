@@ -29,8 +29,6 @@ class MP3Player {
                 System.out.println(e.getMessage());
             }
         }).start();
-
-
     }
 
     public void close() {
