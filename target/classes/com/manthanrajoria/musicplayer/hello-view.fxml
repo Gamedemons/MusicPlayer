@@ -9,7 +9,7 @@
       <Button fx:id="loadButton" layoutX="22.0" layoutY="198.0" mnemonicParsing="false" onAction="#loadMusic" prefHeight="84.0" prefWidth="718.0" style="-fx-background-color: #F6F54D;" text="Load Songs" />
       <Button fx:id="playButton" disable="true" layoutX="22.0" layoutY="512.0" mnemonicParsing="false" onAction="#playMusic" prefHeight="84.0" prefWidth="718.0" style="-fx-background-color: #FEB139;" text="Play / Pause" />
       <Label fx:id="errorLabel" layoutX="22.0" layoutY="465.0" prefHeight="39.0" prefWidth="718.0" textFill="#ffa1a1" />
-      <TextField fx:id="locationField" alignment="CENTER" layoutX="22.0" layoutY="94.0" prefHeight="76.0" prefWidth="617.0" promptText="Enter search loaction" text="C:\Users\GameDemons\IdeaProjects\MusicPlayer\src\main\java\com\manthanrajoria\musicplayer\Songs" />
+      <TextField fx:id="locationField" alignment="CENTER" layoutX="22.0" layoutY="94.0" prefHeight="76.0" prefWidth="592.0" promptText="Enter search loaction" text="C:\Users\GameDemons\IdeaProjects\MusicPlayer\src\main\java\com\manthanrajoria\musicplayer\Songs" />
       <TextField fx:id="indexField" alignment="CENTER" disable="true" layoutX="22.0" layoutY="371.0" prefHeight="84.0" prefWidth="718.0" promptText="Enter song index" />
       <ListView fx:id="listViewer" disable="true" layoutX="754.0" layoutY="95.0" prefHeight="502.0" prefWidth="496.0" />
       <RadioButton fx:id="radio1" disable="true" layoutX="22.0" layoutY="304.0" mnemonicParsing="false" onAction="#indexplayController" prefHeight="52.0" prefWidth="230.0" text="Play using index" textFill="WHITE">
@@ -23,7 +23,6 @@
             <Font name="System Bold" size="46.0" />
          </font>
       </Label>
-      <Button fx:id="fileButton" layoutX="650.0" layoutY="93.0" mnemonicParsing="false" onAction="#openFilePicker" prefHeight="76.0" prefWidth="90.0" text="Open Folder" />
-      <Label layoutX="385.0" layoutY="15.0" prefHeight="68.0" prefWidth="83.0" text="Label" />
+      <Button fx:id="fileButton" layoutX="626.0" layoutY="93.0" mnemonicParsing="false" onAction="#openFilePicker" prefHeight="76.0" prefWidth="114.0" text="Open Folder" />
    </children>
 </Pane>

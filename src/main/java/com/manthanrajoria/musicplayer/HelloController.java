@@ -45,6 +45,9 @@ public class HelloController {
         try {
             DirectoryChooser dChooser = new DirectoryChooser();
             File file = dChooser.showDialog(null);
+            if(file == null){
+                throw new Exception("Select a folder.");
+            }
             locationField.setText(file.getAbsolutePath());
         }catch (Exception e){
             errorLabel.setText(e.getMessage());
@@ -68,9 +71,6 @@ public class HelloController {
                     i++;
                     listViewer.getItems().add(i + "\t\t" + songName);
                 }
-//        for(String a : playlist.getSongs()){
-//            System.out.println(a);
-//        }
                 loadButton.setDisable(true);
                 playButton.setDisable(false);
                 radio1.setDisable(false);

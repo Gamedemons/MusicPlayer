@@ -21,7 +21,6 @@ class MP3Player {
             System.out.println("Problem playing mp3 file " + mp3FileToPlay);
             System.out.println(e.getMessage());
         }
-
         new Thread(() -> {
             try {
                 jlPlayer.play();
